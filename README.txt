@@ -7,6 +7,12 @@ You are allowed to look at the source and use bits and peices, but you MUST NOT 
 We have the right to not post all the source code, and if we choose to do that, to bad! 
 (We dont plan on doing this a lot)
 
+NOTE:
+The JMMods folder contains the images, just drag that in the jar, the common is the src
+
+
+
+
 Thank You,
 Joshua    - MrBlockPlacer
 Mike      - gravitythief
