@@ -35,6 +35,9 @@ public class CuisineMod {
 	public static Block saltslab = new BlockSaltSlab(200);
 	public static Block saltblock = new BlockSalt(201);
 	public static Block saltcollectorblock = new BlockSaltCollector(202);
+	public static Block goldLog = new BlockGoldLog(203).setBlockName("GoldLog");
+	public static Block goldLeaf = new BlockGoldLeaf(204, 4).setBlockName("GoldLeaf");
+
 	public static Item salt = new ItemMaterials(5000, 0, "salt");
 	public static Item pepper = new ItemMaterials(5001, 1, "pepper");
 	public static Item filter = new ItemFilter(5002);
@@ -61,12 +64,14 @@ public class CuisineMod {
 		GameRegistry.registerBlock(saltblock);
 		LanguageRegistry.addName(saltcollectorblock, "Salt Collector");
 		GameRegistry.registerBlock(saltcollectorblock);
-		
+		LanguageRegistry.addName(goldLog, "Gold Log");
+		GameRegistry.registerBlock(goldLog);
+		LanguageRegistry.addName(goldLeaf, "Gold Leaf");
+		GameRegistry.registerBlock(goldLeaf);
+
 		NetworkRegistry.instance().registerGuiHandler(this, guihandlerSC);
-		
+
 		GameRegistry.registerTileEntity(TileEntitySaltCollector.class, "TESaltCollector");
-		
-		
 
 		LanguageRegistry.addName(salt, "Salt");
 		LanguageRegistry.addName(pepper, "Pepper");
@@ -84,17 +89,10 @@ public class CuisineMod {
 		ItemStack saltcollectorblockstack = new ItemStack(saltcollectorblock);
 		ItemStack cheststack = new ItemStack(Block.chest);
 
-		GameRegistry.addRecipe(saltblockstack, new Object[] { "xxx", "xxx",
-				"xxx", Character.valueOf('x'), saltstack });
-		GameRegistry.addRecipe(filterstack, new Object[] { "xyx", "yzy", "xyx",
-				Character.valueOf('x'), stickstack, Character.valueOf('y'),
-				stringstack, Character.valueOf('z'), woolstack });
-		GameRegistry.addRecipe(filterstack, new Object[] { "xyx", "yzy", "xyx",
-				Character.valueOf('y'), stickstack, Character.valueOf('x'),
-				stringstack, Character.valueOf('z'), woolstack });
-		GameRegistry.addRecipe(saltcollectorblockstack, new Object[] { "xyx",
-				"yzy", "xyx", 'x', plankstack, 'y', filterstack, 'z',
-				cheststack });
+		GameRegistry.addRecipe(saltblockstack, new Object[] { "xxx", "xxx", "xxx", Character.valueOf('x'), saltstack });
+		GameRegistry.addRecipe(filterstack, new Object[] { "xyx", "yzy", "xyx", Character.valueOf('x'), stickstack, Character.valueOf('y'), stringstack, Character.valueOf('z'), woolstack });
+		GameRegistry.addRecipe(filterstack, new Object[] { "xyx", "yzy", "xyx", Character.valueOf('y'), stickstack, Character.valueOf('x'), stringstack, Character.valueOf('z'), woolstack });
+		GameRegistry.addRecipe(saltcollectorblockstack, new Object[] { "xyx", "yzy", "xyx", 'x', plankstack, 'y', filterstack, 'z', cheststack });
 
 		GameRegistry.addShapelessRecipe(new ItemStack(salt, 9), saltblockstack);
 

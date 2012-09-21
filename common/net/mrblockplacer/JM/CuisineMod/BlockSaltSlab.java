@@ -26,7 +26,7 @@ public class BlockSaltSlab extends Block {
 		setHardness(0.1F);
 		setResistance(0.5F);
 		blockIndexInTexture = 0;
-		setCreativeTab(CreativeTabs.tabDeco);
+		setCreativeTab(CreativeTabs.tabBlock);
 		setBlockName("saltslab");
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
 		setStepSound(soundSandFootstep);

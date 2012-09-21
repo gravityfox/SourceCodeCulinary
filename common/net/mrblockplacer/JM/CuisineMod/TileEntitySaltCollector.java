@@ -72,9 +72,7 @@ public class TileEntitySaltCollector extends TileEntity implements IInventory {
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) == this
-				&& player.getDistanceSq(xCoord + 0.5, yCoord + 0.5,
-						zCoord + 0.5) < 64;
+		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) == this && player.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) < 64;
 	}
 
 	@Override
@@ -84,35 +82,36 @@ public class TileEntitySaltCollector extends TileEntity implements IInventory {
 	@Override
 	public void closeChest() {
 	}
-	@Override
-    public void readFromNBT(NBTTagCompound tagCompound) {
-            super.readFromNBT(tagCompound);
-            
-            NBTTagList tagList = tagCompound.getTagList("SaltCollectorInventory");
-            for (int i = 0; i < tagList.tagCount(); i++) {
-                    NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
-                    byte slot = tag.getByte("SaltCollectorSlot");
-                    if (slot >= 0 && slot < inv.length) {
-                            inv[slot] = ItemStack.loadItemStackFromNBT(tag);
-                    }
-            }
-    }
 
-    @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
-            super.writeToNBT(tagCompound);
-                            
-            NBTTagList itemList = new NBTTagList();
-            for (int i = 0; i < inv.length; i++) {
-                    ItemStack stack = inv[i];
-                    if (stack != null) {
-                            NBTTagCompound tag = new NBTTagCompound();
-                            tag.setByte("SaltCollectorSlot", (byte) i);
-                            stack.writeToNBT(tag);
-                            itemList.appendTag(tag);
-                    }
-            }
-            tagCompound.setTag("SaltCollectorInventory", itemList);
-    }
+	@Override
+	public void readFromNBT(NBTTagCompound tagCompound) {
+		super.readFromNBT(tagCompound);
+
+		NBTTagList tagList = tagCompound.getTagList("SaltCollectorInventory");
+		for (int i = 0; i < tagList.tagCount(); i++) {
+			NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
+			byte slot = tag.getByte("SaltCollectorSlot");
+			if (slot >= 0 && slot < inv.length) {
+				inv[slot] = ItemStack.loadItemStackFromNBT(tag);
+			}
+		}
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound tagCompound) {
+		super.writeToNBT(tagCompound);
+
+		NBTTagList itemList = new NBTTagList();
+		for (int i = 0; i < inv.length; i++) {
+			ItemStack stack = inv[i];
+			if (stack != null) {
+				NBTTagCompound tag = new NBTTagCompound();
+				tag.setByte("SaltCollectorSlot", (byte) i);
+				stack.writeToNBT(tag);
+				itemList.appendTag(tag);
+			}
+		}
+		tagCompound.setTag("SaltCollectorInventory", itemList);
+	}
 
 }
