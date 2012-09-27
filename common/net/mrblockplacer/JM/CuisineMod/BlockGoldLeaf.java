@@ -19,6 +19,7 @@ public class BlockGoldLeaf extends BlockLeavesBase {
 		setTickRandomly(true);
 		setCreativeTab(CreativeTabs.tabDeco);
 	}
+	//hello
 
 	@Override
 	public String getTextureFile() {
