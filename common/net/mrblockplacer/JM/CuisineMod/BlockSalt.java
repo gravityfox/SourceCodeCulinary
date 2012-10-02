@@ -15,7 +15,7 @@ public class BlockSalt extends Block {
 	public BlockSalt(int par1) {
 		super(par1, Material.rock);
 		this.setCreativeTab(CreativeTabs.tabBlock);
-		setHardness(1.5F);
+		setHardness(0.5F);
 		setResistance(7.5F);
 		setBlockName("saltblock");
 		setStepSound(soundStoneFootstep);

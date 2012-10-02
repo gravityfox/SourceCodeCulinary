@@ -4,13 +4,17 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Random;
 import net.mrblockplacer.JM.CuisineMod.WorldGenSalt;
+import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.RenderEngine;
+import net.minecraft.src.RenderGlobal;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldGenMinable;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -37,6 +41,7 @@ public class CuisineMod {
 	public static Block saltcollectorblock = new BlockSaltCollector(202);
 	public static Block goldLog = new BlockGoldLog(203).setBlockName("GoldLog");
 	public static Block goldLeaf = new BlockGoldLeaf(204, 4).setBlockName("GoldLeaf");
+	public static Block goldSapling = new BlockGoldSapling(205, 7).setBlockName("GoldSapling");
 
 	public static Item salt = new ItemMaterials(5000, 0, "salt");
 	public static Item pepper = new ItemMaterials(5001, 1, "pepper");
@@ -58,6 +63,7 @@ public class CuisineMod {
 
 	@Init
 	public void loadEvent(FMLInitializationEvent event) {
+
 		LanguageRegistry.addName(saltslab, "Salt Slab");
 		GameRegistry.registerBlock(saltslab);
 		LanguageRegistry.addName(saltblock, "Salt Block");
@@ -68,8 +74,8 @@ public class CuisineMod {
 		GameRegistry.registerBlock(goldLog);
 		LanguageRegistry.addName(goldLeaf, "Gold Leaf");
 		GameRegistry.registerBlock(goldLeaf);
-
-		NetworkRegistry.instance().registerGuiHandler(this, guihandlerSC);
+		LanguageRegistry.addName(goldSapling, "Gold Sapling");
+		GameRegistry.registerBlock(goldSapling);
 
 		GameRegistry.registerTileEntity(TileEntitySaltCollector.class, "TESaltCollector");
 

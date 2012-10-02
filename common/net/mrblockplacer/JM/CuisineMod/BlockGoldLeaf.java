@@ -2,10 +2,15 @@ package net.mrblockplacer.JM.CuisineMod;
 
 import java.util.Random;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.src.Block;
+import net.minecraft.src.BlockLeaves;
 import net.minecraft.src.BlockLeavesBase;
 import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.Entity;
+import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.Material;
+import net.minecraft.src.ModLoader;
 import net.minecraft.src.World;
 
 public class BlockGoldLeaf extends BlockLeavesBase {
@@ -16,10 +21,13 @@ public class BlockGoldLeaf extends BlockLeavesBase {
 	protected BlockGoldLeaf(int i, int j) {
 		super(i, j, Material.leaves, false);
 		baseIndexInPNG = j;
+		setLightValue(0.27f);
 		setTickRandomly(true);
+		setHardness(0.2F);
+		this.setStepSound(Block.soundGrassFootstep);
+		setRequiresSelfNotify();
 		setCreativeTab(CreativeTabs.tabDeco);
 	}
-	//hello
 
 	@Override
 	public String getTextureFile() {
@@ -140,6 +148,10 @@ public class BlockGoldLeaf extends BlockLeavesBase {
 		return !graphicsLevel;
 	}
 
+	public boolean isLeaves(World world, int x, int y, int z) {
+		return true;
+	}
+
 	public int getBlockTextureFromSideAndMetadata(int i, int j) {
 		/*
 		 * if ((j & 3) == 1) { return blockIndexInTexture; // get rid of the
@@ -147,6 +159,16 @@ public class BlockGoldLeaf extends BlockLeavesBase {
 		 */
 		return blockIndexInTexture;
 		// }
+	}
+
+	boolean flag = false;
+
+	public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random) {
+		Minecraft mc = ModLoader.getMinecraftInstance();
+		flag = mc.gameSettings.fancyGraphics;
+
+		graphicsLevel = flag;
+
 	}
 
 	public void setGraphicsLevel(boolean flag) {

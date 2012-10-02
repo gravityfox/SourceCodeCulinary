@@ -18,6 +18,8 @@ public class BlockGoldLog extends Block {
 
 	protected BlockGoldLog(int par1) {
 		super(par1, Material.wood);
+		setLightValue(0.49f);
+		setHardness(2.0F);
 		this.setCreativeTab(CreativeTabs.tabBlock);
 	}
 

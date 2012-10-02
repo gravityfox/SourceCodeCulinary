@@ -2,6 +2,9 @@ package net.mrblockplacer.JM.CuisineMod;
 
 import java.util.Random;
 
+import cpw.mods.fml.common.Side;
+import cpw.mods.fml.common.asm.SideOnly;
+
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockContainer;
 import net.minecraft.src.CreativeTabs;
@@ -29,16 +32,39 @@ public class BlockSaltCollector extends BlockContainer {
 		return CommonProxy.BLOCKS;
 	}
 
+	Random random;
+
+	@SideOnly(Side.CLIENT)
+	
 	@Override
-	public boolean onBlockActivated(World par1World, int par2, int par3,
-			int par4, EntityPlayer par5EntityPlayer, int par6, float par7,
-			float par8, float par9) {
-		TileEntity tileEntity = par1World.getBlockTileEntity(par2, par3, par4);
+	public boolean onBlockActivated(World world, int x, int height, int z, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
+		/*
+		 * random = new Random(); int l = random.nextInt(1) + 4;
+		 * 
+		 * for (int k1 = (height - 3) + x; k1 <= height + l; k1++) { int j2 = k1
+		 * - (height + l); int i3 = 1 - j2 / 2; for (int k3 = x - i3; k3 <= x +
+		 * i3; k3++) { int l3 = k3 - x; for (int i4 = z - i3; i4 <= z + i3;
+		 * i4++) { int j4 = i4 - z; if ((Math.abs(l3) != i3 || Math.abs(j4) !=
+		 * i3 || random.nextInt(2) != 0 && j2 != 0) &&
+		 * !Block.opaqueCubeLookup[world.getBlockId(k3, k1, i4)]) {
+		 * world.setBlock(x, height, z, CuisineMod.goldLeaf.blockID); //
+		 * Leaf//// } }
+		 * 
+		 * }
+		 * 
+		 * }
+		 * 
+		 * for (int l1 = 0; l1 < l; l1++) { int k2 = world.getBlockId(x, height
+		 * + l1, z); if (k2 == 0 || k2 == CuisineMod.goldLeaf.blockID) //
+		 * //Leaf///// { world.setBlock(x, height + l1, z,
+		 * CuisineMod.goldLog.blockID); // ////Log//// } }
+		 */
+
+		TileEntity tileEntity = world.getBlockTileEntity(x, height, z);
 		if (tileEntity == null || par5EntityPlayer.isSneaking()) {
 			return false;
-		}
-		// opens gui, to be implemented later
-		par5EntityPlayer.openGui(CuisineMod.instance, 0, par1World, par2, par3, par4);
+		} // opens gui, to be implemented later
+		par5EntityPlayer.openGui(CuisineMod.instance, 0, world, x, height, z);
 
 		return true;
 	}
@@ -48,40 +74,39 @@ public class BlockSaltCollector extends BlockContainer {
 		dropItems(par1World, par2, par3, par4);
 		super.breakBlock(par1World, par2, par3, par4, par5, par6);
 	}
-	private void dropItems(World world, int x, int y, int z){
-        Random rand = new Random();
 
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-        if (!(tileEntity instanceof IInventory)) {
-                return;
-        }
-        IInventory inventory = (IInventory) tileEntity;
+	private void dropItems(World world, int x, int y, int z) {
+		Random rand = new Random();
 
-        for (int i = 0; i < inventory.getSizeInventory(); i++) {
-                ItemStack item = inventory.getStackInSlot(i);
+		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+		if (!(tileEntity instanceof IInventory)) {
+			return;
+		}
+		IInventory inventory = (IInventory) tileEntity;
 
-                if (item != null && item.stackSize > 0) {
-                        float rx = rand.nextFloat() * 0.8F + 0.1F;
-                        float ry = rand.nextFloat() * 0.8F + 0.1F;
-                        float rz = rand.nextFloat() * 0.8F + 0.1F;
+		for (int i = 0; i < inventory.getSizeInventory(); i++) {
+			ItemStack item = inventory.getStackInSlot(i);
 
-                        EntityItem entityItem = new EntityItem(world,
-                                        x + rx, y + ry, z + rz,
-                                        new ItemStack(item.itemID, item.stackSize, item.getItemDamage()));
+			if (item != null && item.stackSize > 0) {
+				float rx = rand.nextFloat() * 0.8F + 0.1F;
+				float ry = rand.nextFloat() * 0.8F + 0.1F;
+				float rz = rand.nextFloat() * 0.8F + 0.1F;
 
-                        if (item.hasTagCompound()) {
-                                entityItem.item.setTagCompound((NBTTagCompound) item.getTagCompound().copy());
-                        }
+				EntityItem entityItem = new EntityItem(world, x + rx, y + ry, z + rz, new ItemStack(item.itemID, item.stackSize, item.getItemDamage()));
 
-                        float factor = 0.05F;
-                        entityItem.motionX = rand.nextGaussian() * factor;
-                        entityItem.motionY = rand.nextGaussian() * factor + 0.2F;
-                        entityItem.motionZ = rand.nextGaussian() * factor;
-                        world.spawnEntityInWorld(entityItem);
-                        item.stackSize = 0;
-                }
-        }
-}
+				if (item.hasTagCompound()) {
+					entityItem.item.setTagCompound((NBTTagCompound) item.getTagCompound().copy());
+				}
+
+				float factor = 0.05F;
+				entityItem.motionX = rand.nextGaussian() * factor;
+				entityItem.motionY = rand.nextGaussian() * factor + 0.2F;
+				entityItem.motionZ = rand.nextGaussian() * factor;
+				world.spawnEntityInWorld(entityItem);
+				item.stackSize = 0;
+			}
+		}
+	}
 
 	public boolean hasTileEntity(int metadata) {
 		return true;
