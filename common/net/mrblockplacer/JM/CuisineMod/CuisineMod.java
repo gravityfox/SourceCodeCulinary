@@ -76,7 +76,7 @@ public class CuisineMod {
 		GameRegistry.registerBlock(goldLeaf);
 		LanguageRegistry.addName(goldSapling, "Gold Sapling");
 		GameRegistry.registerBlock(goldSapling);
-
+		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandlerSaltCollector());
 		GameRegistry.registerTileEntity(TileEntitySaltCollector.class, "TESaltCollector");
 
 		LanguageRegistry.addName(salt, "Salt");
