@@ -7,7 +7,6 @@ import cpw.mods.fml.common.network.IGuiHandler;
 
 public class GuiHandlerSaltCollector implements IGuiHandler {
 
-	//returns an instance of the Container you made earlier
     @Override
     public Object getServerGuiElement(int id, EntityPlayer player, World world,
                     int x, int y, int z) {
@@ -18,7 +17,6 @@ public class GuiHandlerSaltCollector implements IGuiHandler {
             return null;
     }
 
-    //returns an instance of the Gui you made earlier
     @Override
     public Object getClientGuiElement(int id, EntityPlayer player, World world,
                     int x, int y, int z) {

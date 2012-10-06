@@ -59,13 +59,6 @@ public class CuisineMod {
 	@PreInit
 	public void preInitializationEvent(FMLPreInitializationEvent event) {}
 
-	/*
-	 * TODO The thing that neither of us want to do: GUI, goo-ey, graphical user
-	 * interface, TMAO (the most annoying object)
-	 * 
-	 * Done!
-	 */
-		 
 	@Init
 	public void loadEvent(FMLInitializationEvent event) {
 		LanguageRegistry.addName(saltslab, "Salt Slab");

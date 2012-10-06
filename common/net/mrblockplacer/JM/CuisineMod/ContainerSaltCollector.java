@@ -20,12 +20,8 @@ public class ContainerSaltCollector extends Container {
 	public ContainerSaltCollector(InventoryPlayer inventoryPlayer, TileEntitySaltCollector te) {
 		tileEntity = te;
 
-		// the Slot constructor takes the IInventory and the slot number in that
-		// it binds to
-		// and the x-y coordinates it resides on-screen
 		addSlotToContainer(new Slot(tileEntity, 0, 80, 57));
 
-		// commonly used vanilla code that adds the player's inventory
 		bindPlayerInventory(inventoryPlayer);
 	}
 
@@ -51,18 +47,15 @@ public class ContainerSaltCollector extends Container {
 		ItemStack stack = null;
 		Slot slotObject = (Slot) inventorySlots.get(slot);
 
-		// null checks and checks if the item can be stacked (maxStackSize > 1)
 		if (slotObject != null && slotObject.getHasStack()) {
 			ItemStack stackInSlot = slotObject.getStack();
 			stack = stackInSlot.copy();
 
-			// merges the item into player inventory since its in the tileEntity
 			if (slot == 0) {
 				if (!mergeItemStack(stackInSlot, 1, inventorySlots.size(), true)) {
 					return null;
 				}
-				// places it into the tileEntity is possible since its in the
-				// player inventory
+
 			} else if (!mergeItemStack(stackInSlot, 0, 1, false)) {
 				return null;
 			}

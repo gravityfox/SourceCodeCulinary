@@ -24,11 +24,6 @@ public class GuiSaltCollector extends GuiContainer {
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
 	}
 
-	/*
-	 * new Gui Texture: overlay pos: 176, 0 overlay dim: 16, 40 corresponding
-	 * silhouette pos: 80, 16
-	 */
-
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
 

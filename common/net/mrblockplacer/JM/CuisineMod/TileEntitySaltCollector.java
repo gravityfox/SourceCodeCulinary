@@ -37,7 +37,6 @@ public class TileEntitySaltCollector extends TileEntity implements IInventory {
 	@Override
 	public int getSizeInventory() {
 
-		// TODO Auto-generated method stub
 		return inv.length;
 	}
 
@@ -81,7 +80,6 @@ public class TileEntitySaltCollector extends TileEntity implements IInventory {
 
 	@Override
 	public String getInvName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -89,28 +89,7 @@ public class BlockSaltCollector extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public boolean onBlockActivated(World world, int x, int height, int z, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
-		/*
-		 * random = new Random(); int l = random.nextInt(1) + 4;
-		 * 
-		 * for (int k1 = (height - 3) + x; k1 <= height + l; k1++) { int j2 = k1
-		 * - (height + l); int i3 = 1 - j2 / 2; for (int k3 = x - i3; k3 <= x +
-		 * i3; k3++) { int l3 = k3 - x; for (int i4 = z - i3; i4 <= z + i3;
-		 * i4++) { int j4 = i4 - z; if ((Math.abs(l3) != i3 || Math.abs(j4) !=
-		 * i3 || random.nextInt(2) != 0 && j2 != 0) &&
-		 * !Block.opaqueCubeLookup[world.getBlockId(k3, k1, i4)]) {
-		 * world.setBlock(x, height, z, CuisineMod.goldLeaf.blockID); //
-		 * Leaf//// } }
-		 * 
-		 * }
-		 * 
-		 * }
-		 * 
-		 * for (int l1 = 0; l1 < l; l1++) { int k2 = world.getBlockId(x, height
-		 * + l1, z); if (k2 == 0 || k2 == CuisineMod.goldLeaf.blockID) //
-		 * //Leaf///// { world.setBlock(x, height + l1, z,
-		 * CuisineMod.goldLog.blockID); // ////Log//// } }
-		 */
-
+		
 		TileEntity tileEntity = world.getBlockTileEntity(x, height, z);
 		if (tileEntity == null || par5EntityPlayer.isSneaking()) {
 			return false;
