@@ -79,4 +79,5 @@ public class BlockGoldLog extends Block {
 	public boolean isWood(World world, int x, int y, int z) {
 		return true;
 	}
+
 }

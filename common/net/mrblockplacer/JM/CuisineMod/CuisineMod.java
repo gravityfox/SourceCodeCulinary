@@ -3,7 +3,7 @@ package net.mrblockplacer.JM.CuisineMod;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Random;
-import net.mrblockplacer.JM.CuisineMod.WorldGenSalt;
+import net.mrblockplacer.JM.CuisineMod.WorldGenAnything;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.Item;
@@ -13,6 +13,7 @@ import net.minecraft.src.RenderGlobal;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldGenMinable;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
@@ -33,7 +34,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class CuisineMod {
 
-	public static WorldGenSalt testgen = new WorldGenSalt();
+	public static WorldGenAnything worldgen = new WorldGenAnything();
 	public static GuiHandlerSaltCollector guihandlerSC = new GuiHandlerSaltCollector();
 
 	public static Block saltslab = new BlockSaltSlab(200);
@@ -46,6 +47,8 @@ public class CuisineMod {
 	public static Item salt = new ItemMaterials(5000, 0, "salt");
 	public static Item pepper = new ItemMaterials(5001, 1, "pepper");
 	public static Item filter = new ItemFilter(5002);
+	public static Item lambmeatraw = new ItemModFood(5003, 2, 0.2F, true, 32, 4, "lambmeatraw");
+	public static Item lambmeatcooked = new ItemModFood(5004, 6, 0.6F, false, 32, 5, "lambmeatcooked");
 
 	@Instance
 	public static CuisineMod instance;
@@ -54,16 +57,17 @@ public class CuisineMod {
 	public static CommonProxy proxy;
 
 	@PreInit
-	public void preInitializationEvent(FMLPreInitializationEvent event) {
+	public void preInitializationEvent(FMLPreInitializationEvent event) {}
 
-	}
-
-	// TODO The thing that neither of us want to do: GUI, goo-ey, graphical user
-	// interface, TMAO (the most annoying object)
-
+	/*
+	 * TODO The thing that neither of us want to do: GUI, goo-ey, graphical user
+	 * interface, TMAO (the most annoying object)
+	 * 
+	 * Done!
+	 */
+		 
 	@Init
 	public void loadEvent(FMLInitializationEvent event) {
-
 		LanguageRegistry.addName(saltslab, "Salt Slab");
 		GameRegistry.registerBlock(saltslab);
 		LanguageRegistry.addName(saltblock, "Salt Block");
@@ -72,18 +76,22 @@ public class CuisineMod {
 		GameRegistry.registerBlock(saltcollectorblock);
 		LanguageRegistry.addName(goldLog, "Gold Log");
 		GameRegistry.registerBlock(goldLog);
-		LanguageRegistry.addName(goldLeaf, "Gold Leaf");
+		LanguageRegistry.addName(goldLeaf, "Gold Leaves");
 		GameRegistry.registerBlock(goldLeaf);
 		LanguageRegistry.addName(goldSapling, "Gold Sapling");
 		GameRegistry.registerBlock(goldSapling);
-		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandlerSaltCollector());
+
 		GameRegistry.registerTileEntity(TileEntitySaltCollector.class, "TESaltCollector");
+
+		NetworkRegistry.instance().registerGuiHandler(this, guihandlerSC);
+
+		GameRegistry.registerWorldGenerator(worldgen);
 
 		LanguageRegistry.addName(salt, "Salt");
 		LanguageRegistry.addName(pepper, "Pepper");
 		LanguageRegistry.addName(filter, "Filter");
-
-		GameRegistry.registerWorldGenerator(testgen);
+		LanguageRegistry.addName(lambmeatraw, "Raw Lambmeat");
+		LanguageRegistry.addName(lambmeatcooked, "Cooked Lambmeat");
 
 		ItemStack saltstack = new ItemStack(salt);
 		ItemStack saltblockstack = new ItemStack(saltblock);
@@ -102,10 +110,11 @@ public class CuisineMod {
 
 		GameRegistry.addShapelessRecipe(new ItemStack(salt, 9), saltblockstack);
 
+		GameRegistry.addSmelting(lambmeatraw.shiftedIndex, new ItemStack(lambmeatcooked), 0F);
+
 	}
 
 	@PostInit
-	public void postInitializationEvent(FMLPostInitializationEvent event) {
-	}
+	public void postInitializationEvent(FMLPostInitializationEvent event) {}
 
 }

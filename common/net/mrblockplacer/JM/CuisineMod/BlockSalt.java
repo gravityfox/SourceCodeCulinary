@@ -1,8 +1,11 @@
 package net.mrblockplacer.JM.CuisineMod;
 
+import java.util.List;
+
 import net.minecraft.src.Block;
 import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
 import net.minecraft.src.World;
 
@@ -22,5 +25,8 @@ public class BlockSalt extends Block {
 		blockIndexInTexture = 0;
 
 	}
+	
+		
+	
 
 }

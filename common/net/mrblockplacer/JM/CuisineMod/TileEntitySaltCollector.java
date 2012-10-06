@@ -1,5 +1,8 @@
 package net.mrblockplacer.JM.CuisineMod;
 
+import cpw.mods.fml.common.Side;
+import cpw.mods.fml.common.asm.SideOnly;
+import net.minecraft.src.Block;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
@@ -11,12 +14,29 @@ public class TileEntitySaltCollector extends TileEntity implements IInventory {
 
 	private ItemStack[] inv;
 
+	public static int TotalTime = 640 * 39;
+
+	public int TimeLeft;
+
+	public int SurroundingWater;
+	
+	public boolean Initialized= false;
+	
 	public TileEntitySaltCollector() {
 		inv = new ItemStack[1];
 	}
 
+	public void setSurroundingWater(int par1) {
+		SurroundingWater = par1;
+	}
+
+	public void startTimeLeft() {
+		TimeLeft = TotalTime;
+	}
+
 	@Override
 	public int getSizeInventory() {
+
 		// TODO Auto-generated method stub
 		return inv.length;
 	}
@@ -83,9 +103,44 @@ public class TileEntitySaltCollector extends TileEntity implements IInventory {
 	public void closeChest() {
 	}
 
+	public void updateEntity() {
+		if(!Initialized) {
+			Block.blocksList[worldObj.getBlockId(xCoord, yCoord, zCoord)].onNeighborBlockChange(worldObj, xCoord, yCoord, zCoord, 0);
+			Initialized = true;
+		}
+
+		// if (!this.worldObj.isRemote) {
+
+		if (inv[0] == null || (inv[0].stackSize != 64 && this.inv[0].isItemEqual(new ItemStack(CuisineMod.salt)))) {
+
+			if (TimeLeft <= 0) {
+				TimeLeft = TotalTime;
+				if (this.inv[0] == null) {
+					this.inv[0] = new ItemStack(CuisineMod.salt, 1);
+				} else if (this.inv[0].isItemEqual(new ItemStack(CuisineMod.salt))) {
+					setInventorySlotContents(0, new ItemStack(CuisineMod.salt, inv[0].stackSize + 1));
+				}
+				this.onInventoryChanged();
+
+			} else {
+				TimeLeft -= SurroundingWater;
+			}
+
+		}
+
+		// }
+	}
+
+	@SideOnly(Side.CLIENT)
+	public int getTimeLeft() {
+		return TimeLeft;
+	}
+
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
+		TimeLeft = tagCompound.getInteger("SaltTimeLeft");
+		
 
 		NBTTagList tagList = tagCompound.getTagList("SaltCollectorInventory");
 		for (int i = 0; i < tagList.tagCount(); i++) {
@@ -100,6 +155,7 @@ public class TileEntitySaltCollector extends TileEntity implements IInventory {
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
+		tagCompound.setInteger("SaltTimeLeft", TimeLeft);
 
 		NBTTagList itemList = new NBTTagList();
 		for (int i = 0; i < inv.length; i++) {

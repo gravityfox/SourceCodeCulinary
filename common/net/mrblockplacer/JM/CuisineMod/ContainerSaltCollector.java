@@ -1,7 +1,13 @@
 package net.mrblockplacer.JM.CuisineMod;
 
+import java.util.Iterator;
+
+import cpw.mods.fml.common.Side;
+import cpw.mods.fml.common.asm.SideOnly;
+
 import net.minecraft.src.Container;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.ICrafting;
 import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Slot;
@@ -9,6 +15,7 @@ import net.minecraft.src.Slot;
 public class ContainerSaltCollector extends Container {
 
 	protected TileEntitySaltCollector tileEntity;
+	private int lastTimeLeft;
 
 	public ContainerSaltCollector(InventoryPlayer inventoryPlayer, TileEntitySaltCollector te) {
 		tileEntity = te;
@@ -16,7 +23,7 @@ public class ContainerSaltCollector extends Container {
 		// the Slot constructor takes the IInventory and the slot number in that
 		// it binds to
 		// and the x-y coordinates it resides on-screen
-		addSlotToContainer(new Slot(tileEntity, 0, 80, 35));
+		addSlotToContainer(new Slot(tileEntity, 0, 80, 57));
 
 		// commonly used vanilla code that adds the player's inventory
 		bindPlayerInventory(inventoryPlayer);
@@ -69,4 +76,36 @@ public class ContainerSaltCollector extends Container {
 
 		return stack;
 	}
+
+	public void addCraftingToCrafters(ICrafting par1ICrafting) {
+		super.addCraftingToCrafters(par1ICrafting);
+		par1ICrafting.updateCraftingInventoryInfo(this, 0, tileEntity.TimeLeft);
+	}
+
+	public void updateCraftingResults() {
+		super.updateCraftingResults();
+		Iterator var1 = this.crafters.iterator();
+
+		while (var1.hasNext()) {
+			ICrafting var2 = (ICrafting) var1.next();
+
+			if (this.lastTimeLeft != this.tileEntity.TimeLeft) {
+				var2.updateCraftingInventoryInfo(this, 0, this.tileEntity.TimeLeft);
+			}
+
+		}
+
+		this.lastTimeLeft = this.tileEntity.TimeLeft;
+
+	}
+	@SideOnly(Side.CLIENT)
+    public void updateProgressBar(int par1, int par2)
+    {
+        if (par1 == 0)
+        {
+            this.tileEntity.TimeLeft = par2;
+        }
+
+        
+    }
 }

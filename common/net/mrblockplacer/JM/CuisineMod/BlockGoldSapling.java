@@ -7,6 +7,7 @@ import java.util.Random;
 
 import net.minecraft.src.BlockFlower;
 import net.minecraft.src.CreativeTabs;
+import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldGenForest;
 import net.minecraft.src.WorldGenHugeTrees;
@@ -21,13 +22,14 @@ public class BlockGoldSapling extends BlockFlower {
 		float var3 = 0.4F;
 		setLightValue(0.27f);
 		this.setBlockBounds(0.5F - var3, 0.0F, 0.5F - var3, 0.5F + var3, var3 * 2.0F, 0.5F + var3);
-		this.setCreativeTab(CreativeTabs.tabBlock);
+		this.setCreativeTab(CreativeTabs.tabDeco);
 	}
 
 	@Override
 	public String getTextureFile() {
 		return CommonProxy.BLOCKS;
 	}
+	
 
 	/**
 	 * Ticks the block if it's been scheduled
@@ -60,12 +62,13 @@ public class BlockGoldSapling extends BlockFlower {
 	/**
 	 * Attempts to grow a sapling into a tree
 	 */
+	
 	public void growTree(World par1World, int par2, int par3, int par4, Random par5Random) {
 
 		int l = par1World.getBlockMetadata(par2, par3, par4) & 3;
 		par1World.setBlock(par2, par3, par4, 0);
 		Object obj = null;
-		obj = new WorldGenGoldTree();
+		obj = new SpawnGoldTree();
 		/*
 		 * if(l == 1) { obj = new WorldGenTaiga2(true); } else if(l == 2) { obj
 		 * = new WorldGenForest(true); } else { obj = new WorldGenTrees(true);
@@ -173,11 +176,7 @@ public class BlockGoldSapling extends BlockFlower {
 		return par1World.getBlockId(par2, par3, par4) == this.blockID && (par1World.getBlockMetadata(par2, par3, par4) & 3) == par5;
 	}
 
-	@SideOnly(Side.CLIENT)
-	/**
-	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
-	 */
-	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List) {
-
-	}
+	
+	
+	
 }

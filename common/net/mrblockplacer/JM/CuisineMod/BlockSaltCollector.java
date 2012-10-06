@@ -2,9 +2,12 @@ package net.mrblockplacer.JM.CuisineMod;
 
 import java.util.Random;
 
+import javax.jws.Oneway;
+
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
 
+import net.minecraft.src.BiomeGenBase;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockContainer;
 import net.minecraft.src.CreativeTabs;
@@ -19,6 +22,9 @@ import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 
 public class BlockSaltCollector extends BlockContainer {
+
+	public int SurroundingWater;
+
 	public BlockSaltCollector(int par1) {
 		super(par1, Material.wood);
 		this.setCreativeTab(CreativeTabs.tabDeco);
@@ -32,10 +38,55 @@ public class BlockSaltCollector extends BlockContainer {
 		return CommonProxy.BLOCKS;
 	}
 
+	public void onBlockAdded(World par1World, int par2, int par3, int par4) {
+
+		onNeighborBlockChange(par1World, par2, par3, par4, 0);
+		TileEntity tileEntity = par1World.getBlockTileEntity(par2, par3, par4);
+		TileEntitySaltCollector tileEntitySC = (TileEntitySaltCollector) tileEntity;
+		tileEntitySC.startTimeLeft();
+
+	}
+
+	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5) {
+
+		int countwater = 0;
+		TileEntity tileEntity = par1World.getBlockTileEntity(par2, par3, par4);
+		TileEntitySaltCollector tileEntitySC = (TileEntitySaltCollector) tileEntity;
+
+		BiomeGenBase b = par1World.getBiomeGenForCoords(par2, par4);
+		if (b.biomeName == BiomeGenBase.ocean.biomeName || b.biomeName == BiomeGenBase.river.biomeName) {
+			if (par1World.getBlockId(par2, par3, par4 + 1) == Block.waterMoving.blockID || par1World.getBlockId(par2, par3, par4 + 1) == Block.waterStill.blockID) {
+				++countwater;
+			}
+			if (par1World.getBlockId(par2 + 1, par3, par4) == Block.waterMoving.blockID || par1World.getBlockId(par2 + 1, par3, par4) == Block.waterStill.blockID) {
+				++countwater;
+			}
+			if (par1World.getBlockId(par2 - 1, par3, par4) == Block.waterMoving.blockID || par1World.getBlockId(par2 - 1, par3, par4) == Block.waterStill.blockID) {
+				++countwater;
+			}
+			if (par1World.getBlockId(par2, par3 + 1, par4) == Block.waterMoving.blockID || par1World.getBlockId(par2, par3 + 1, par4) == Block.waterStill.blockID) {
+				++countwater;
+			}
+			if (par1World.getBlockId(par2, par3 - 1, par4) == Block.waterMoving.blockID || par1World.getBlockId(par2, par3 - 1, par4) == Block.waterStill.blockID) {
+				++countwater;
+			}
+			if (par1World.getBlockId(par2, par3, par4 - 1) == Block.waterMoving.blockID || par1World.getBlockId(par2, par3, par4 - 1) == Block.waterStill.blockID) {
+				++countwater;
+			}
+		}
+
+		if (b.biomeName == BiomeGenBase.ocean.biomeName) {
+
+			tileEntitySC.setSurroundingWater(countwater * 2);
+		} else if (b.biomeName == BiomeGenBase.river.biomeName) {
+			tileEntitySC.setSurroundingWater(countwater);
+		}
+		
+	}
+
 	Random random;
 
 	@SideOnly(Side.CLIENT)
-	
 	@Override
 	public boolean onBlockActivated(World world, int x, int height, int z, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
 		/*
