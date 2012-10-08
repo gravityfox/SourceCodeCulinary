@@ -107,15 +107,11 @@ public class TileEntitySaltCollector extends TileEntity implements IInventory {
 			Initialized = true;
 		}
 
-		if (this.worldObj.isRemote) {
+		if (TimeLeft <= 0) {
+			TimeLeft = TotalTime;
 
-			if (TimeLeft <= 0) {
-				TimeLeft = TotalTime;
-
-			} else {
-				TimeLeft -= SurroundingWater;
-			}
-
+		} else {
+			TimeLeft -= SurroundingWater;
 		}
 
 		if (!this.worldObj.isRemote) {
