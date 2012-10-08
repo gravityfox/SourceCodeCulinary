@@ -14,14 +14,14 @@ public class TileEntitySaltCollector extends TileEntity implements IInventory {
 
 	private ItemStack[] inv;
 
-	public static int TotalTime = 640 * 39;
+	public static int TotalTime = 39 * 640;
 
 	public int TimeLeft;
 
 	public int SurroundingWater;
-	
-	public boolean Initialized= false;
-	
+
+	public boolean Initialized = false;
+
 	public TileEntitySaltCollector() {
 		inv = new ItemStack[1];
 	}
@@ -102,23 +102,15 @@ public class TileEntitySaltCollector extends TileEntity implements IInventory {
 	}
 
 	public void updateEntity() {
-		if(!Initialized) {
+		if (!Initialized) {
 			Block.blocksList[worldObj.getBlockId(xCoord, yCoord, zCoord)].onNeighborBlockChange(worldObj, xCoord, yCoord, zCoord, 0);
 			Initialized = true;
 		}
 
-		// if (!this.worldObj.isRemote) {
-
-		if (inv[0] == null || (inv[0].stackSize != 64 && this.inv[0].isItemEqual(new ItemStack(CuisineMod.salt)))) {
+		if (this.worldObj.isRemote) {
 
 			if (TimeLeft <= 0) {
 				TimeLeft = TotalTime;
-				if (this.inv[0] == null) {
-					this.inv[0] = new ItemStack(CuisineMod.salt, 1);
-				} else if (this.inv[0].isItemEqual(new ItemStack(CuisineMod.salt))) {
-					setInventorySlotContents(0, new ItemStack(CuisineMod.salt, inv[0].stackSize + 1));
-				}
-				this.onInventoryChanged();
 
 			} else {
 				TimeLeft -= SurroundingWater;
@@ -126,7 +118,24 @@ public class TileEntitySaltCollector extends TileEntity implements IInventory {
 
 		}
 
-		// }
+		if (!this.worldObj.isRemote) {
+
+			if (inv[0] == null || (inv[0].stackSize != 64 && this.inv[0].isItemEqual(new ItemStack(CuisineMod.salt)))) {
+
+				if (TimeLeft <= 0) {
+
+					if (this.inv[0] == null) {
+						this.inv[0] = new ItemStack(CuisineMod.salt, 1);
+					} else if (this.inv[0].isItemEqual(new ItemStack(CuisineMod.salt))) {
+						setInventorySlotContents(0, new ItemStack(CuisineMod.salt, inv[0].stackSize + 1));
+					}
+					this.onInventoryChanged();
+
+				}
+
+			}
+
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -138,7 +147,6 @@ public class TileEntitySaltCollector extends TileEntity implements IInventory {
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
 		TimeLeft = tagCompound.getInteger("SaltTimeLeft");
-		
 
 		NBTTagList tagList = tagCompound.getTagList("SaltCollectorInventory");
 		for (int i = 0; i < tagList.tagCount(); i++) {

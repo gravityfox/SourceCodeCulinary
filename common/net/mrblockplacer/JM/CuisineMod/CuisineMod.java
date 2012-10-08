@@ -49,6 +49,7 @@ public class CuisineMod {
 	public static Item filter = new ItemFilter(5002);
 	public static Item lambmeatraw = new ItemModFood(5003, 2, 0.2F, true, 32, 4, "lambmeatraw");
 	public static Item lambmeatcooked = new ItemModFood(5004, 6, 0.6F, false, 32, 5, "lambmeatcooked");
+	public static Item peppercorns = new ItemMaterials(5004, 6, "peppercorns");
 
 	@Instance
 	public static CuisineMod instance;
@@ -85,6 +86,7 @@ public class CuisineMod {
 		LanguageRegistry.addName(filter, "Filter");
 		LanguageRegistry.addName(lambmeatraw, "Raw Lambmeat");
 		LanguageRegistry.addName(lambmeatcooked, "Cooked Lambmeat");
+		LanguageRegistry.addName(peppercorns, "Peppercorns");
 
 		ItemStack saltstack = new ItemStack(salt);
 		ItemStack saltblockstack = new ItemStack(saltblock);
