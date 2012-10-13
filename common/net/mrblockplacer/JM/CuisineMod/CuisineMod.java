@@ -49,7 +49,7 @@ public class CuisineMod {
 	public static Item filter = new ItemFilter(5002);
 	public static Item lambmeatraw = new ItemModFood(5003, 2, 0.2F, true, 32, 4, "lambmeatraw");
 	public static Item lambmeatcooked = new ItemModFood(5004, 6, 0.6F, false, 32, 5, "lambmeatcooked");
-	public static Item peppercorns = new ItemMaterials(5004, 6, "peppercorns");
+	public static Item peppercorns = new ItemMaterials(5005, 6, "peppercorns");
 
 	@Instance
 	public static CuisineMod instance;
@@ -80,6 +80,8 @@ public class CuisineMod {
 		NetworkRegistry.instance().registerGuiHandler(this, guihandlerSC);
 
 		GameRegistry.registerWorldGenerator(worldgen);
+		
+		MinecraftForge.EVENT_BUS.register(new EventListener());
 
 		LanguageRegistry.addName(salt, "Salt");
 		LanguageRegistry.addName(pepper, "Pepper");
